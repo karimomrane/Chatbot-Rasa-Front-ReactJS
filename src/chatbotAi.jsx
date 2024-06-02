@@ -95,7 +95,7 @@ function ChatbotAi() {
     }, []);
 
     return (
-        <div style={{ marginTop: "100px" }}>
+        <div>
             {showMoreOptions && (
                 <>
                     <div className="modal" style={{ padding: "30px", position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 999, backgroundColor: '#ffffff' }}>
