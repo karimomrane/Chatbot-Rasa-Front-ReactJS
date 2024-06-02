@@ -78,6 +78,13 @@ function ChatbotAi() {
         }
     }
 
+    const handleReset = () => {
+        setChat([]);
+        sendWelcomeMessage();
+        setInitialEtat("initial");
+    };
+
+
     const handleQuestionClick = useCallback((question) => {
         const name = "montasser";
         setChat(chat => [...chat, { sender: "user", sender_id: name, msg: question }]);
@@ -148,22 +155,32 @@ function ChatbotAi() {
                                     <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("Je suis un client régulier")}>Je suis un client régulier</button>
                                 </>
                             )}
-                            {(InitialEtat === "C'est ma première visite" || InitialEtat === "sucré" || InitialEtat === "salé" || InitialEtat === "healthy") && (
+                            {(InitialEtat === "C'est ma première visite" || InitialEtat === "sucré" || InitialEtat === "salé" || InitialEtat === "healthy food") && (
                                 <>
                                     <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("sucré")}>sucré</button>
                                     <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("salé")}>salé</button>
-                                    <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("healthy")}>healthy</button>
+                                    <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("healthy food")}>healthy</button>
                                 </>
                             )}
 
-                            {InitialEtat === "Je suis un client régulier" && (
+                            {(InitialEtat === "Je suis un client régulier" || InitialEtat === "intéressé") && (
                                 <>
-                                    <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("Je suis intéressé")}>Je suis intéressé</button>
+                                    <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("intéressé")}>Je suis intéressé</button>
                                     <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("je cherche autre chose")}>je cherche autre chose</button>
                                 </>
                             )}
 
+                            {(InitialEtat === "je cherche autre chose" || InitialEtat === "dessert" || InitialEtat === "epice" || InitialEtat === "sans gluten" || InitialEtat === "healthy") && (
+                                <>
+                                    <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("dessert")}>dessert</button>
+                                    <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("epice")}>epice</button>
+                                    <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("healthy")}>healthy</button>
+                                    <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("sans gluten")}>sans gluten</button>
+                                </>
+                            )}
 
+
+                            <button className="btn btn-outline-light mx-2 my-2" onClick={handleReset}>Reset</button>
                             <button className="btn btn-outline-light mx-2 my-2" onClick={handleMoreClick}>Plus...</button>
                         </div>
 
