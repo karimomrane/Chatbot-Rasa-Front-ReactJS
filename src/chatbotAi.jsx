@@ -28,7 +28,7 @@ function ChatbotAi() {
     const sendWelcomeMessage = () => {
         const welcomeMessage = {
             sender: "bot",
-            msg: "Bonjour, je suis ByBot. Comment puis-je vous aider ?"
+            msg: "Bienvenue chez BYBot Je suis votre assistant virtuel et je suis là pour vous guider dans le choix de vos produits alimentaires. <br/> Pour quelle raison avez-vous choisi de visiter notre magasin aujourd'hui ?"
         };
         setChat([welcomeMessage]);
     }
@@ -146,9 +146,8 @@ function ChatbotAi() {
                         </div>
 
                         <div className="col-12 mx-4" style={{ marginBottom: "20px", marginLeft: "20px" }}>
-                            <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("Comment créer une offre ?")}>Comment créer une offre ?</button>
-                            <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("Comment lister mes offres ?")}>Comment lister mes offres ?</button>
-                            <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("Comment lister mes archive ?")}>Comment lister mes archives des offres ?</button>
+                            <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("Petit Déjuner")}>Petit Déjuner</button>
+                            <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("Première visite")}>Première visite</button>
                             <button className="btn btn-outline-light mx-2 my-2" onClick={handleMoreClick}>More...</button>
                         </div>
 
