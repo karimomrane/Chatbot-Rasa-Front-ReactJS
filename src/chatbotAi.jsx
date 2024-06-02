@@ -86,7 +86,7 @@ function ChatbotAi() {
     }, []);
 
     return (
-        <div style={{ marginTop: "100px" }}>
+        <div>
             {showMoreOptions && (
                 <>
                     <div className="modal" style={{ padding: "30px", position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 999, backgroundColor: '#ffffff' }}>
@@ -146,8 +146,9 @@ function ChatbotAi() {
                         </div>
 
                         <div className="col-12 mx-4" style={{ marginBottom: "20px", marginLeft: "20px" }}>
-                            <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("Petit Déjuner")}>Petit Déjuner</button>
                             <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("Première visite")}>Première visite</button>
+                            <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("Petit déjeuner")}>Option 2</button>
+                            <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("Petit déjeuner")}>Option 3</button>
                             <button className="btn btn-outline-light mx-2 my-2" onClick={handleMoreClick}>More...</button>
                         </div>
 
