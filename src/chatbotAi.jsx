@@ -10,6 +10,7 @@ function ChatbotAi() {
     const [botTyping, setBotTyping] = useState(false);
     const [showMoreOptions, setShowMoreOptions] = useState(false);
 
+    const [InitialEtat, setInitialEtat] = useState("initial")
 
     const handleMoreClick = () => {
         setShowMoreOptions(!showMoreOptions);
@@ -82,6 +83,7 @@ function ChatbotAi() {
         setChat(chat => [...chat, { sender: "user", sender_id: name, msg: question }]);
         setBotTyping(true);
         rasaAPI(name, question);
+        setInitialEtat(question);
         setShowMoreOptions(false)
     }, []);
 
@@ -109,12 +111,6 @@ function ChatbotAi() {
                     <div className="chatbot-blur"></div>
                 </>
             )}
-
-
-
-
-
-
 
             <div className="container">
                 <div className="row justify-content-center">
@@ -146,10 +142,29 @@ function ChatbotAi() {
                         </div>
 
                         <div className="col-12 mx-4" style={{ marginBottom: "20px", marginLeft: "20px" }}>
-                            <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("Première visite")}>Première visite</button>
-                            <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("Petit déjeuner")}>Option 2</button>
-                            <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("Petit déjeuner")}>Option 3</button>
-                            <button className="btn btn-outline-light mx-2 my-2" onClick={handleMoreClick}>More...</button>
+                            {InitialEtat === "initial" && (
+                                <>
+                                    <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("C'est ma première visite")}>C'est ma première visite</button>
+                                    <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("Je suis un client régulier")}>Je suis un client régulier</button>
+                                </>
+                            )}
+                            {(InitialEtat === "C'est ma première visite" || InitialEtat === "sucré" || InitialEtat === "salé" || InitialEtat === "healthy") && (
+                                <>
+                                    <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("sucré")}>sucré</button>
+                                    <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("salé")}>salé</button>
+                                    <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("healthy")}>healthy</button>
+                                </>
+                            )}
+
+                            {InitialEtat === "Je suis un client régulier" && (
+                                <>
+                                    <button className="btn btn-outline-light mx-2" onClick={() => handleQuestionClick("Je suis intéressé")}>Je suis intéressé</button>
+                                    <button className="btn btn-outline-light mx-2 my-2" onClick={() => handleQuestionClick("je cherche autre chose")}>je cherche autre chose</button>
+                                </>
+                            )}
+
+
+                            <button className="btn btn-outline-light mx-2 my-2" onClick={handleMoreClick}>Plus...</button>
                         </div>
 
 
