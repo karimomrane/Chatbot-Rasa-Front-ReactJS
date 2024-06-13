@@ -29,7 +29,7 @@ function BmiModal({ show, onClose, weight, height, bmi, setWeight, setHeight, ha
                         <button type="button" className="btn btn-primary" onClick={handleBmiCalculation}>Calculate BMI</button>
                         <button type="button" className="btn btn-secondary" onClick={() => { onClose(); }}>Close</button>
                     </div>
-                    <h2 style={{ color: 'black' }}>{bmi}</h2>
+
                 </div>
             </div>
         </div>

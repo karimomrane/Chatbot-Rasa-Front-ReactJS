@@ -7,6 +7,7 @@ import StateButtons from './StateButtons.jsx';
 import BmiModal from './BmiModal.jsx';
 import MoreOptionsModal from './MoreOptionsModal.jsx';
 
+const API_URL = 'http://127.0.0.1:5000'; // Update this with your Flask server address
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const mic = new SpeechRecognition();
 
@@ -76,7 +77,7 @@ function Gemini() {
     const sendWelcomeMessage = () => {
         const welcomeMessage = {
             sender: "bot",
-            msg: "Bienvenue chez BYBot Je suis votre assistant virtuel et je suis là pour vous guider dans le choix de vos produits alimentaires. <br/> Quel est votre centre d'intérêt ?"
+            msg: "Bienvenue chez BYBot Je suis votre assistant virtuel et je suis là pour vous guider dans le choix de vos produits alimentaires. <br/> Comment puis-je vous aider aujourd'hui? ?"
         };
         setChat([welcomeMessage]);
     };
@@ -91,7 +92,7 @@ function Gemini() {
             setBotTyping(true);
             setInputMessage('');
             try {
-                const response = await fetch('http://127.0.0.1:5000/api', {
+                const response = await fetch(`${API_URL}/api`, {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -100,8 +101,7 @@ function Gemini() {
                     body: JSON.stringify({ question: inputMessage.trim() }),
                 });
                 const data = await response.json();
-                let botResponse = data.response.replace(/\n/g, '<br/>'); // Replace newline characters with <br/>
-                botResponse = botResponse.replace(/\*/g, ''); // Remove all asterisks
+                const botResponse = data.response; // Assume response is directly the bot's message
                 const message = {
                     sender: "bot",
                     msg: botResponse
@@ -127,7 +127,7 @@ function Gemini() {
         setChat(chat => [...chat, { sender: "user", sender_id: name, msg: question }]);
         setBotTyping(true);
         try {
-            const response = await fetch('http://127.0.0.1:5000/api', {
+            const response = await fetch(`${API_URL}/api`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -136,8 +136,7 @@ function Gemini() {
                 body: JSON.stringify({ question: question }),
             });
             const data = await response.json();
-            let botResponse = data.response.replace(/\n/g, '<br/>'); // Replace newline characters with <br/>
-            botResponse = botResponse.replace(/\*/g, ''); // Remove all asterisks
+            const botResponse = data.response; // Assume response is directly the bot's message
             const message = {
                 sender: "bot",
                 msg: botResponse
@@ -154,7 +153,7 @@ function Gemini() {
     const handleBmiCalculation = async () => {
         if (height > 0 && weight > 0) {
             try {
-                const response = await fetch('http://127.0.0.1:5000/bmi', {
+                const response = await fetch('http://http://127.0.0.1:5000/bmi', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -164,22 +163,29 @@ function Gemini() {
                 });
                 const data = await response.json();
                 const imc = data.bmi;
-                if ((imc > 0) && (imc < 18.5)) {
-                    setBmi("Votre IMC : " + data.bmi + " Maigreur");
-                }
-                if ((imc > 18.5) && (imc < 24.9)) {
-                    setBmi("Votre IMC : " + data.bmi + " Normal");
-                }
-                if ((imc > 24.9) && (imc < 29.9)) {
-                    setBmi("Votre IMC : " + data.bmi + " Surpoinds");
-                }
-                if ((imc > 29.9) && (imc < 40)) {
-                    setBmi("Votre IMC : " + data.bmi + " Obésité");
-                }
-                if (imc > 40) {
-                    setBmi("Votre IMC : " + data.bmi + " Obésité Massive");
-                }
+                let bmiMessage = '';
 
+                if (imc > 0 && imc < 18.5) {
+                    bmiMessage = "Votre IMC : " + data.bmi + " Maigreur";
+                } else if (imc >= 18.5 && imc <= 24.9) {
+                    bmiMessage = "Votre IMC : " + data.bmi + " Normal";
+                } else if (imc >= 25 && imc <= 29.9) {
+                    bmiMessage = "Votre IMC : " + data.bmi + " Surpoids";
+                } else if (imc >= 30 && imc <= 39.9) {
+                    bmiMessage = "Votre IMC : " + data.bmi + " Obésité";
+                } else if (imc >= 40) {
+                    bmiMessage = "Votre IMC : " + data.bmi + " Obésité Massive";
+                }
+                setShowBmiModal(false);
+                setWeight('');
+                setHeight('');
+                const bmiBotMessage = {
+                    sender: "bot",
+                    msg: bmiMessage
+                };
+
+                setChat(chat => [...chat, bmiBotMessage]);
+                setBmi('');
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -246,13 +252,12 @@ function Gemini() {
 
                         <div className="cardFooter styleFooter">
                             <div className="row">
-                                <form style={{ display: 'flex', width: '100%' }} onSubmit={handleSubmit}>
+                                <form style={{ display: 'flex', width: '100%' }} className='col' onSubmit={handleSubmit}>
                                     <div className="col-10" style={{ paddingRight: '0px' }}>
                                         <input onChange={e => setInputMessage(e.target.value)} value={inputMessage} placeholder='Posez votre question ici' type="text" className="msginp" />
                                     </div>
                                     <div className="col-2 cola">
                                         <button type="submit" className="circleBtn" aria-label="Send message"><IoMdSend className="sendBtn" /></button>
-
                                     </div>
                                     <div className="col-2 cola">
                                         <button style={{ color: 'white' }} className="circleBtn" type='button' onClick={() => setIsListening(prevState => !prevState)}>
