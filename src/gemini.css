@@ -314,3 +314,20 @@
 .btn-secondary:hover {
     opacity: 0.8;
 }
+.languageSelect {
+  height: 50px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  margin-left:20px;
+  padding-left: 10px;
+  background-color: #ffffff;
+  color: #555;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.languageSelect:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
